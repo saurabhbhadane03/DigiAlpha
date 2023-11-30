@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext } from 'react';
+import "./App.css";
+
+import ClassCard from './Form_Compenents/ClassCard';
+
+import { FormContext } from "./ContextStore/FormContext";
 
 function App() {
+
+  const{ formData , AddClass , SubmitData , RequiredCheckFlag} = useContext(FormContext)
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div className="main">
+        <div className="add-class-button">
+          <button type="button" onClick={AddClass}>+ Add Class</button>
+        </div>
+
+        { formData ? 
+            formData.map( ( item , id) => (<ClassCard classDetails={item} classId={id} key={id}/>) ) : ""
+        }
+
+        <div className="submit-btn">
+          <button onClick={SubmitData}>Submit</button>
+          <br/>
+          <p>{RequiredCheckFlag.errorMessage }{RequiredCheckFlag.submitStatus ? "Data Submitted Successfully" : ""}</p>
+        </div>
+      </div>
     </div>
   );
 }
